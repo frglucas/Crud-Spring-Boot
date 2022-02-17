@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.frglucas.crudspringboot.model.services.exceptions.ClientsNotFoundException;
 import com.frglucas.crudspringboot.model.services.exceptions.EntityNotFoundException;
 
 @ControllerAdvice
@@ -25,15 +24,5 @@ public class ControllerExceptionHandler {
 		error.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
-	
-	@ExceptionHandler(ClientsNotFoundException.class)
-	public ResponseEntity<StandardError> clientsNotFound(ClientsNotFoundException e, HttpServletRequest request) {
-		StandardError error = new StandardError();
-		error.setTimestamp(Instant.now());
-		error.setStatus(HttpStatus.NOT_FOUND.value());
-		error.setError("Resource not found");
-		error.setMessage(e.getMessage());
-		error.setPath(request.getRequestURI());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-	}
+
 }

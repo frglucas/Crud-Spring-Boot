@@ -4,10 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @SQLDelete(sql = "UPDATE client SET deleted = true WHERE id=?")
@@ -20,9 +22,15 @@ public class Client {
 	
 	@NotBlank
 	private String name;
+	
+	@CPF
 	private String cpf;
+	
+	@Email
 	private String email;
-	private String telefone;
+	
+	private String phoneNumber;
+	
 	private boolean deleted = Boolean.FALSE;
 	
 	public Client() {
@@ -34,7 +42,7 @@ public class Client {
 		this.name = name;
 		this.cpf = cpf;
 		this.email = email;
-		this.telefone = telefone;
+		this.phoneNumber = telefone;
 	}
 
 	public Long getId() {
@@ -69,12 +77,12 @@ public class Client {
 		this.email = email;
 	}
 
-	public String getTelefone() {
-		return telefone;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public boolean isDeleted() {
