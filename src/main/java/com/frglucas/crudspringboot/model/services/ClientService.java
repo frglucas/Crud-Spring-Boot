@@ -1,7 +1,7 @@
 package com.frglucas.crudspringboot.model.services;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -19,18 +19,23 @@ public class ClientService {
 	@Autowired
 	private ClientRepository clientRepository;
 	
-	public Client createClient(Client client) {
-		return clientRepository.save(client);
+	public ClientDTO createClient(Client client) {
+		client.setId(null);
+		clientRepository.save(client);
+		return new ClientDTO(client);
 	}
 	
-	public Client saveClient(Client client) {
+	public ClientDTO saveClient(Client client) {
 		if(client.getId() != null && clientRepository.existsById(client.getId()) == true) {
-			return clientRepository.save(client);
+			clientRepository.save(client);
+			return new ClientDTO(client);
 		} else throw new EntityNotFoundException("Client not found");
 	}
 	
-	public List<Client> findAll() {
-		return new ArrayList<>(clientRepository.findAll());
+	public List<ClientDTO> findAll() {
+		List<Client> listClient = clientRepository.findAll();
+		List<ClientDTO> listClientDto = listClient.stream().map(c -> new ClientDTO(c)).collect(Collectors.toList());
+		return listClientDto;
 	}
 	
 	public ClientDTO findById(@Valid Long id) {

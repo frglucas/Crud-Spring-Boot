@@ -27,17 +27,17 @@ public class ClientController {
 	private ClientService clientService;
 	
 	@PostMapping
-	public ResponseEntity<Client> createClient(@RequestBody @Valid Client client) {
+	public ResponseEntity<ClientDTO> createClient(@RequestBody @Valid Client client) {
 		return ResponseEntity.ok().body(clientService.createClient(client));
 	}
 
 	@PutMapping
-	public ResponseEntity<Client> saveClient(@Valid Client client) {
+	public ResponseEntity<ClientDTO> saveClient(@RequestBody @Valid Client client) {
 		return ResponseEntity.ok().body(clientService.saveClient(client));
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Client>> findAll(){
+	public ResponseEntity<List<ClientDTO>> findAll(){
 		return ResponseEntity.ok().body(clientService.findAll());
 	}
 	
