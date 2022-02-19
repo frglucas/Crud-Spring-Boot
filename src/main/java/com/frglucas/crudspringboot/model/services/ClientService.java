@@ -3,8 +3,6 @@ package com.frglucas.crudspringboot.model.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,16 +32,18 @@ public class ClientService {
 	
 	public List<ClientDTO> findAll() {
 		List<Client> listClient = clientRepository.findAll();
-		List<ClientDTO> listClientDto = listClient.stream().map(c -> new ClientDTO(c)).collect(Collectors.toList());
+		List<ClientDTO> listClientDto = listClient.stream()
+				.map(c -> new ClientDTO(c))
+				.collect(Collectors.toList());
 		return listClientDto;
 	}
 	
-	public ClientDTO findById(@Valid Long id) {
+	public ClientDTO findById(Long id) {
 		return new ClientDTO(clientRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("ID not found " + id)));
 	}
 	
-	public void deleteById(@Valid Long id) {
+	public void deleteById(Long id) {
 		if(clientRepository.existsById(id) == true) {
 			clientRepository.deleteById(id);
 		} else throw new EntityNotFoundException("ID not found " + id);
